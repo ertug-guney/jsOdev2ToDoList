@@ -1,13 +1,15 @@
 
 // Ana fonksiyon-geçerli görev girildiğinde görevi listeye ekleme(altaki fonksiyon ile) ve toastları gösterme, görevi localStorage'a ekleme
-let clicks = 0
+// let clicks = 0    // localStorage a tek tek görev eklemek için
+let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+
 function newElement(){
     const TASK = document.querySelector('#task')
 
     if (TASK.value && TASK.value.trim() !=='') {        
         addTask(TASK.value)                         // alttaki görev fonksiyonunu çalıştırma
-        clicks ++;
-        localStorage.setItem(`Görev ${clicks}`, TASK.value)
+        // clicks ++;   // localStorage a tek tek görev eklemek için
+        // localStorage.setItem(`Görev ${clicks}`, TASK.value)      // localStorage a tek tek görev eklemek için
         TASK.value = ""
         $('#liveToast').toast('show')
         closeButtons();                 // alttaki listeyi kapatma fonksiyonunu çalıştırma
@@ -23,6 +25,8 @@ function newElement(){
 let ulListDOM = document.querySelector('#list')
 
 const addTask = (task) => {
+    itemsArray.push(task);
+    localStorage.setItem('items', JSON.stringify(itemsArray))
     let liDOM = document.createElement('li')
     liDOM.classList.add(
         'li'
